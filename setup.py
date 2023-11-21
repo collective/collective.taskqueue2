@@ -57,6 +57,7 @@ setup(
         "plone.api>=1.8.4",
         "plone.app.dexterity",
         "huey",
+        "furl",
     ],
     extras_require={
         "test": [
