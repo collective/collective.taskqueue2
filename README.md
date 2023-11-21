@@ -274,9 +274,13 @@ conflict errors.
 
 ## Authors
 
- - Andreas Jung <info@zopyx.com> for University of Bologna
+Andreas Jung <info@zopyx.com> for Università di Bologna/University of Bologna.
 
+## Project sponsor
 
+The `collective.taskqueue2` was developed as a component of a Plone 6 migration
+project for Università di Bologna and has been made available as an open-source
+solution.
 
 ## Contribute
 
