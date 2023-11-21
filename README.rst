@@ -31,33 +31,15 @@
 collective.taskqueue2
 =====================
 
-A taskqueue implementation for Plone 5/6 based on the Huey package
+A taskqueue implementation for Plone 5/6 based on the Huey package.
+
+See https://huey.readthedocs.io/en/latest/
+
 
 Features
 --------
 
 - Can be bullet points
-
-
-Examples
---------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
-
-
-Translations
-------------
-
-This product has been translated into
-
-- Klingon (thanks, K'Plai)
 
 
 Installation
@@ -75,19 +57,17 @@ Install collective.taskqueue2 by adding it to your buildout::
 
 and then running ``bin/buildout``
 
+Configuration
+-------------
+
+
+
 
 Authors
 -------
 
-Provided by awesome people ;)
+Andreas Jung <info@zopyx.com> for University of Bologna
 
-
-Contributors
-------------
-
-Put your name here, you deserve it!
-
-- ?
 
 
 Contribute
@@ -97,12 +77,6 @@ Contribute
 - Source Code: https://github.com/collective/collective.taskqueue2
 - Documentation: https://docs.plone.org/foo/bar
 
-
-Support
--------
-
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
 
 
 License
