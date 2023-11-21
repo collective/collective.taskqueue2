@@ -11,7 +11,9 @@ import signal
 import threading
 
 
-import collective.taskqueue2.huey_tasks
+# This import must remain in place in order to register the Huey tasks during
+# startup !!!
+import collective.taskqueue2.huey_tasks # noqa: F401
 
 
 # monkey-patch huey signal handler for integration with Zope
