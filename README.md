@@ -248,6 +248,29 @@ returned the current queue status as JSON:
 ```
 
 
+## Logging
+
+The package utilizes the standard Plone/Zope logger for logging purposes.
+Typically, the log information is stored in the `var/log/instance.log` file or a
+related file if using a ZEO setup.
+
+## Configuration of `collective.taskqueue2` with a ZEO setup
+
+In a ZEO setup, you need to determine which ZEO client(s) will serve as task
+queue consumers. This is done by setting `HUEY_CONSUMER=1` in the environment of
+the relevant ZEO client(s).
+
+Additionally, the `HUEY_TASKQUEUE_URL` must be configured for all ZEO clients
+that will add tasks to the task queue. It's important to ensure that all ZEO
+clients point to the same storage backend.
+
+It is possible to have multiple consumers, where each consumer is responsible
+for executing a specific task. Having multiple consumers can be beneficial in
+certain situations. However, it's important to be aware that conflict errors can
+occur with ZEO clients, just like with any other ZEO setup. It's worth noting
+that `collective.taskqueue2` does not provide any special support for handling
+conflict errors.
+
 
 ## Authors
 
