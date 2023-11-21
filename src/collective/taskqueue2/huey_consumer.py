@@ -10,7 +10,7 @@ from huey.bin.huey_consumer import load_huey
 from huey.consumer_options import ConsumerConfig
 
 # don't remove, required for task registration
-from collective.taskqueue2.huey_tasks import schedule_browser_view
+import collective.taskqueue2.huey_tasks 
 from collective.taskqueue2.huey_logger import LOG
 
 
@@ -42,25 +42,27 @@ consumer_options = {
     "periodic": True,
     "scheduler_interval": 1,
     "worker_type": "thread",
-    "workers": 4,
+    "workers": 1,
     "logfile": "huey.log",
     "verbose": False,
 }
 
 # load huey configuration from huey_tasks.py (code above)
 
-is_huey_consumer = os.environ.get("HUEY_CONSUMER", "0") in ("1", "True", "true", "on")
-if is_huey_consumer:
-    huey_taskqueue = load_huey("collective.taskqueue2.huey_config.huey_taskqueue")
+def startup(event):
 
-    config = ConsumerConfig(**consumer_options)
-    config.validate()
-    config.setup_logger()
-    consumer = huey_taskqueue.create_consumer(**config.values)
+    is_huey_consumer = os.environ.get("HUEY_CONSUMER", "0") in ("1", "True", "true", "on")
+    if is_huey_consumer:
+        huey_taskqueue = load_huey("collective.taskqueue2.huey_config.huey_taskqueue")
 
-    th = threading.Thread(target=consumer.run)
-    th.start()
+        config = ConsumerConfig(**consumer_options)
+        config.validate()
+        config.setup_logger()
+        consumer = huey_taskqueue.create_consumer(**config.values)
 
-    LOG.info("Started Huey consumer thread")
-else:
-    LOG.info("NO HUEY CONSUMER")
+        th = threading.Thread(target=consumer.run)
+        th.start()
+
+        LOG.info("collective.taskqueue2: consumer thread started.")
+    else:
+        LOG.debug("collective.taskqueue2 installed but this instance is not configured as a consumer. Set HUEY_CONSUMER=1 in your environment.")

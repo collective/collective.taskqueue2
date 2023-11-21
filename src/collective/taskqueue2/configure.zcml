@@ -7,6 +7,11 @@
 
   <i18n:registerTranslations directory="locales" />
 
+  <subscriber
+    for="zope.processlifetime.IProcessStarting"
+    handler=".huey_consumer.startup"
+  />
+
   <!--
     Be careful if you use general includeDependencies, it can have side effects!
     Better import explicit packages or configurations ;)

@@ -23,18 +23,24 @@ def on_startup():
 
 @huey_taskqueue.pre_execute()
 def pre_execute_hook(task):
-    LOG.info(f"PRE HOOK: {task}")
+#    LOG.info(f"PRE HOOK: {task}")
+    pass
 
 
 @huey_taskqueue.post_execute()
 def post_execute_hook(task, task_value, exc):
-    LOG.info(f"POST HOOK {task=} {task_value=} {exc=}")
+#    LOG.info(f"POST HOOK {task=} {task_value=} {exc=}")
+    pass
 
 
 
 @huey_taskqueue.periodic_task(crontab(minute='*', hour='*'))
-def periodic_example():
-    LOG.info("PERIODIC TASK")
+def dump_queue_stats():
+    data = dict(
+            pending=len(huey_taskqueue.pending()),
+            scheduled=len(huey_taskqueue.scheduled()),
+            )
+    LOG.info(f"Taskqueue stats: {data}")
 
 
 @huey_taskqueue.task()
@@ -77,15 +83,15 @@ def schedule_browser_view(
                 LOG.info(view_name, result)
 
                 t.commit()
-                LOG.info("transaction-commit")
+                LOG.debug("Transaction committed")
             except:
                 t.abort()
-                LOG.info("transaction-abort")
+                LOG.error("Transaction aborted", exc_info=True)
                 raise
         finally:
             setSite(None)
             app._p_jar.close()
 
     duration = time.time() - ts
-    LOG.info(f"{duration=}")
+    LOG.debug(f"{duration=}")
     return result
