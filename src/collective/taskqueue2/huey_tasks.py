@@ -1,20 +1,19 @@
 # bin/instance run scripts/huey_consumer.py
 
-import logging
-import time
-
-import plone.api
-import transaction
-import Zope2
+from collective.taskqueue2.huey_config import huey_taskqueue
+from collective.taskqueue2.huey_logger import LOG
+from huey import crontab
 from Testing.makerequest import makerequest
 from zope.component.hooks import setSite
 
-from huey import crontab 
+import plone.api
+import time
+import transaction
+import Zope2
+
 
 # Start huey consumer as thread
 
-from collective.taskqueue2.huey_logger import LOG
-from collective.taskqueue2.huey_config import huey_taskqueue
 
 @huey_taskqueue.on_startup()
 def on_startup():
@@ -23,23 +22,22 @@ def on_startup():
 
 @huey_taskqueue.pre_execute()
 def pre_execute_hook(task):
-#    LOG.info(f"PRE HOOK: {task}")
+    #    LOG.info(f"PRE HOOK: {task}")
     pass
 
 
 @huey_taskqueue.post_execute()
 def post_execute_hook(task, task_value, exc):
-#    LOG.info(f"POST HOOK {task=} {task_value=} {exc=}")
+    #    LOG.info(f"POST HOOK {task=} {task_value=} {exc=}")
     pass
 
 
-
-@huey_taskqueue.periodic_task(crontab(minute='*', hour='*'))
+@huey_taskqueue.periodic_task(crontab(minute="*", hour="*"))
 def dump_queue_stats():
     data = dict(
-            pending=len(huey_taskqueue.pending()),
-            scheduled=len(huey_taskqueue.scheduled()),
-            )
+        pending=len(huey_taskqueue.pending()),
+        scheduled=len(huey_taskqueue.scheduled()),
+    )
     LOG.info(f"Taskqueue stats: {data}")
 
 
@@ -51,7 +49,9 @@ def schedule_browser_view(
     context_path: str,
     params: dict,
 ):
-    LOG.info(f"SCHEDULE {view_name=} {username=} {site_path=}  {context_path=} {params=}")
+    LOG.info(
+        f"SCHEDULE {view_name=} {username=} {site_path=}  {context_path=} {params=}"
+    )
 
     ts = time.time()
 

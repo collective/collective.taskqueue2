@@ -1,22 +1,17 @@
 # bin/instance run scripts/huey_consumer.py
 
-import logging
+from collective.taskqueue2.huey_logger import LOG
+from huey.bin.huey_consumer import load_huey
+from huey.consumer import Consumer
+from huey.consumer_options import ConsumerConfig
+
+# don't remove, required for task registration
 import os
 import signal
 import threading
 
-from huey.consumer import Consumer
-from huey.bin.huey_consumer import load_huey
-from huey.consumer_options import ConsumerConfig
 
-# don't remove, required for task registration
-import collective.taskqueue2.huey_tasks 
-from collective.taskqueue2.huey_logger import LOG
-
-
-
-
-# monkey-patch huey
+# monkey-patch huey signal handler for integration with Zope
 def my_set_signal_handlers(self):
     """Ignore signal errors from Huey"""
     try:
@@ -25,12 +20,13 @@ def my_set_signal_handlers(self):
         if hasattr(signal, "SIGHUP"):
             signal.signal(signal.SIGHUP, self._handle_restart_signal)
     except ValueError:
-        print("Huey signal exception ignored")
+        LOG.debug("Huey signal exception ignored")
 
 
 Consumer._set_signal_handlers = my_set_signal_handlers
 
 
+# huey consumer configuration options
 consumer_options = {
     "backoff": 1.15,
     "check_worker_health": True,
@@ -47,11 +43,23 @@ consumer_options = {
     "verbose": False,
 }
 
-# load huey configuration from huey_tasks.py (code above)
 
+# startup handler for starting Huey consumer thread
 def startup(event):
+    try:
+        _startup(event)
+    except Exception as e:
+        LOG.error(f"collective.taskqueue2: error starting consumer thread: {e}")
+        raise
 
-    is_huey_consumer = os.environ.get("HUEY_CONSUMER", "0") in ("1", "True", "true", "on")
+
+def _startup(event):
+    is_huey_consumer = os.environ.get("HUEY_CONSUMER", "0") in (
+        "1",
+        "True",
+        "true",
+        "on",
+    )  # noqa: E501
     if is_huey_consumer:
         huey_taskqueue = load_huey("collective.taskqueue2.huey_config.huey_taskqueue")
 
@@ -65,4 +73,6 @@ def startup(event):
 
         LOG.info("collective.taskqueue2: consumer thread started.")
     else:
-        LOG.debug("collective.taskqueue2 installed but this instance is not configured as a consumer. Set HUEY_CONSUMER=1 in your environment.")
+        LOG.debug(
+            "collective.taskqueue2 installed but this instance is not configured as a consumer. Set HUEY_CONSUMER=1 in your environment."
+        )
