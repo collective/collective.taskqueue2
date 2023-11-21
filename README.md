@@ -125,7 +125,6 @@ Starting server in PID 76861.
 ```
 
 ## Using `collective.taskqueue2` inside your Plone application code
-Here's a rephrased explanation of the given example:
 
 The example demonstrates a common use case of starting a dedicated browser view asynchronously.
 
@@ -178,6 +177,27 @@ schedule_browser_view(
     params=dict(foo="bar", bar="foo", meaning_of_life=42, now=now),
 )
 ```
+
+## Security
+
+
+The current implementation of `collective.taskqueue2` is intended for internal
+environments where you have complete control over your code and dependencies. It
+is designed to be used within trusted environments.
+
+It is important to note that when scheduling a browser view call, it will be
+executed using the specified `username`. This can potentially introduce a
+significant security risk if you are using third-party code that is not under
+your control with `collective.taskqueue2`. In such cases, an attacker could
+potentially specify a common `username` such as `"admin"`, which is typically
+associated with manager-level rights. It is crucial to exercise caution in these
+situations.
+
+Given the importance of security, it is recommended to consider implementing a
+stronger security mechanism in future versions to address this potential
+vulnerability.
+
+
 
 ## Authors
 
