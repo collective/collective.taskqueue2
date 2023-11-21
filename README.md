@@ -16,6 +16,11 @@ application code. Additionally, thanks to the integration of Huey as the
 foundation for `collective.taskqueue2`, you can also schedule periodic tasks in
 a cron-style manner.
 
+The `collective.taskqueue` package supports multiple backend storage options,
+including Redis, Sqlite, in-memory, and filesystem. However, in most cases,
+Redis is the preferred choice for production environments, while Sqlite or
+in-memory storage are commonly used for development purposes.
+
 
 ## Installation
 
