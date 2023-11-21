@@ -27,9 +27,18 @@ and then running ``bin/buildout``
 
 ## Configuration
 
+### Environment variable `HUEY_CONSUMER`
+
+The `HUEY_CONSUMER` environment variable determines whether the current
+Plone/Zope instance functions as a consumer of the task queue. It can have the
+values `1`, `True`, `true`, or `on` to indicate that the instance is a consumer.
+Any other value will be considered as indicating that the instance is not a
+consumer.
+
 ### Environment variable `HUEY_LOG_LEVEL`
 
-`HUEY_LOG_LEVEL` is an environment variable used to configure the logging level for the `collective.taskqueue2` package, which is based on the Huey package.
+`HUEY_LOG_LEVEL` is an environment variable used to configure the logging level
+for the `collective.taskqueue2` package, which is based on the Huey package.
 
 Here are some key points about `HUEY_LOG_LEVEL`:
 
