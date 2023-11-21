@@ -108,6 +108,23 @@ Ensure that you set the appropriate URL corresponding to the desired scheme befo
 The `huey_taskqueue` object created based on the URL configuration can be used further in the application for task queuing and processing.
 
 
+### Console output
+
+After installing  `collective.taskqueue2` in Plone, you should see the following output on the console
+(with `HUEY_LOG_LEVEL=DEBUG` and `HUEY_CONSUMER=1` set):
+
+```
+2023-11-21 11:02:59,012 INFO    [huey.consumer:386][Thread-1 (run)] Huey consumer started with 1 thread, PID 76861 at 2023-11-21 10:02:59.012894
+2023-11-21 11:02:59,012 INFO    [huey:77][MainThread] collective.taskqueue2: consumer thread started.
+2023-11-21 11:02:59,013 INFO    [huey.consumer:389][Thread-1 (run)] Scheduler runs every 1 second(s).
+2023-11-21 11:02:59,013 INFO    [huey.consumer:391][Thread-1 (run)] Periodic tasks are enabled.
+Starting server in PID 76861.
+2023-11-21 11:02:59,014 INFO    [huey.consumer:398][Thread-1 (run)] The following commands are available:
++ collective.taskqueue2.huey_tasks.dump_queue_stats
++ collective.taskqueue2.huey_tasks.schedule_browser_view
+```
+
+
 ## Authors
 
  - Andreas Jung <info@zopyx.com> for University of Bologna
