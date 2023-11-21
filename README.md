@@ -34,7 +34,7 @@ Install collective.taskqueue2 by adding it to your buildout::
         collective.taskqueue2
 
 
-and then running ``bin/buildout``
+and then running `bin/buildout`.
 
 ## Configuration
 
