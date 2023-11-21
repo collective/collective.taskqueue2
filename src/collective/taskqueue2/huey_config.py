@@ -1,7 +1,7 @@
-# Huey configuration management
-
 import furl
 import os
+
+from collective.taskqueue2.huey_logger import LOG
 
 
 default_huey_url = "sqlite:///tmp/huey_queue.sqlite"
@@ -42,4 +42,4 @@ else:
         f"No proper configuration for $HUEY_TASKQUEUE_URL found ({huey_url}"
     )
 
-print(huey_taskqueue)
+LOG.info(f"Using taskqueue {huey_taskqueue}, {huey_taskqueue.__dict__}")

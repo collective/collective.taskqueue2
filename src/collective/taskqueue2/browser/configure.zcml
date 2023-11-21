@@ -11,6 +11,14 @@
       layer="collective.taskqueue2.interfaces.ICollectiveTaskqueue2Layer"
       />
 
+  <browser:page
+    for="Products.CMFCore.interfaces.ISiteRoot"
+    name="taskqueue-stats"
+    class=".taskqueue.TaskQueue"
+    attribute="stats"
+    permission="cmf.ManagePortal"
+  />
+
   <!-- Publish static files -->
   <plone:static
       name="collective.taskqueue2"
