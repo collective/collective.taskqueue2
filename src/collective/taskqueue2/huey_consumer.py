@@ -11,6 +11,9 @@ import signal
 import threading
 
 
+import collective.taskqueue2.huey_tasks
+
+
 # monkey-patch huey signal handler for integration with Zope
 def my_set_signal_handlers(self):
     """Ignore signal errors from Huey"""
