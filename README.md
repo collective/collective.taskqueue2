@@ -147,12 +147,7 @@ from datetime import datetime
 
 import logging
 
-
-#
-logging.getLogger("huey").setLevel(logging.DEBUG)
-
 from collective.taskqueue2.huey_tasks import schedule_browser_view
-
 
 now = datetime.now().isoformat()
 schedule_browser_view(
@@ -172,14 +167,7 @@ like:
 from datetime import datetime
 import plone.api
 
-import logging
-
-
-#
-logging.getLogger("huey").setLevel(logging.DEBUG)
-
 from collective.taskqueue2.huey_tasks import schedule_browser_view
-
 
 now = datetime.now().isoformat()
 schedule_browser_view(
@@ -190,7 +178,6 @@ schedule_browser_view(
     params=dict(foo="bar", bar="foo", meaning_of_life=42, now=now),
 )
 ```
-
 
 ## Authors
 
