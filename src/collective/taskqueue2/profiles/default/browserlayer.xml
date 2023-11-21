@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layers>
+  <layer
+      name="collective.taskqueue2"
+      interface="collective.taskqueue2.interfaces.ICollectiveTaskqueue2Layer"
+      />
+</layers>
