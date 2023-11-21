@@ -178,6 +178,44 @@ schedule_browser_view(
 )
 ```
 
+
+## Writing your own Huey tasks in your application
+
+
+In case you have specific requirements beyond scheduling a browser view, you
+have the option to create your own Huey tasks. You can refer to the
+documentation at https://huey.readthedocs.io/en/latest/ for more details on
+creating custom tasks with Huey.
+
+To use your custom Huey tasks effectively, it is important to register them
+during the startup phase of Plone and Zope. This ensures that your tasks are
+properly initialized and available for execution.
+
+Inside your package `foo.bar` you may provide your own tasks in a file `foo.bar/foo/bar/huey_tasks.py` like
+
+```
+from collective.taskqueue2.huey_config import huey_taskqueue
+
+@huey_taskqueue.task()
+def my_task(*args, **kw):
+   # do something
+```
+
+and import `huey_tasks.py` e.g. inside `foo.bar/foo/bar/__init__.py`.
+
+Your own application (e.g. as part of an event listener) may call
+
+```
+def listen_event(event):
+
+   context = event.context
+   result = my_task(context=context, foo="bar", bar="42")
+```
+
+Please the Huey documentation on `result` handling (in case you need to access
+the result for whatever reason).
+
+
 ## Security
 
 
