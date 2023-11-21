@@ -235,6 +235,18 @@ Given the importance of security, it is recommended to consider implementing a
 stronger security mechanism in future versions to address this potential
 vulnerability.
 
+## Browser view(s)
+
+The package provides a browser view `@@taskqueue-stats` (on the Plone root) that
+returned the current queue status as JSON:
+
+```
+{
+  "pending": 0,
+  "scheduled": 0
+}
+```
+
 
 
 ## Authors

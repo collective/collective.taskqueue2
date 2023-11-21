@@ -44,7 +44,7 @@ consumer_options = {
     "scheduler_interval": 1,
     "worker_type": "thread",
     "workers": 1,
-    "logfile": "huey.log",
+#    "logfile": "huey.log",
     "verbose": False,
 }
 
