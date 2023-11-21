@@ -124,6 +124,73 @@ Starting server in PID 76861.
 + collective.taskqueue2.huey_tasks.schedule_browser_view
 ```
 
+## Using `collective.taskqueue2` inside your Plone application code
+Here's a rephrased explanation of the given example:
+
+The example demonstrates a common use case of starting a dedicated browser view asynchronously.
+
+In this scenario, we schedule the browser view `/magazine/@@debug-demo-view` to run in the context of the portal object located at `context_path`.
+
+The function takes the following parameters:
+
+- `view_name`: The name of the browser view to be executed asynchronously. It is important to specify the view name with a leading `@@` symbol.
+- `context_path`: The path of the context object for the view within the Plone portal. It can be obtained by joining the physical path of the context object using `"/".join(context.getPhysicalPath())`.
+- `site_path`: The path to the root of the Plone portal.
+- `username`: The name of the user under which the view will be executed. It's important to exercise caution when using third-party code that may provide a username with higher privileges.
+- `params`: A Python dictionary of parameters that will be passed to the browser request. These parameters will be available in `self.context.request.form` within the browser view.
+
+
+```
+# bin/instance run scripts/huey_client.py
+
+from datetime import datetime
+
+import logging
+
+
+#
+logging.getLogger("huey").setLevel(logging.DEBUG)
+
+from collective.taskqueue2.huey_tasks import schedule_browser_view
+
+
+now = datetime.now().isoformat()
+schedule_browser_view(
+    view_name="debug-demo-view",
+    context_path="/magazine",
+    site_path="/magazine",
+    username="admin",
+    params=dict(foo="bar", bar="foo", meaning_of_life=42, now=now),
+)
+```
+
+You may wrap the code above into a custom method that would provide the
+`context_path`, `site_path` and `username` from the current calling context
+like:
+
+```
+from datetime import datetime
+import plone.api
+
+import logging
+
+
+#
+logging.getLogger("huey").setLevel(logging.DEBUG)
+
+from collective.taskqueue2.huey_tasks import schedule_browser_view
+
+
+now = datetime.now().isoformat()
+schedule_browser_view(
+    view_name="debug-demo-view",
+    context_path="/".join(context.getPhysicalPath()),
+    site_path="/".join(plone.api.portal.get().getPhysicalPath()),
+    username=plone.api.user.get_current().getId(),
+    params=dict(foo="bar", bar="foo", meaning_of_life=42, now=now),
+)
+```
+
 
 ## Authors
 
