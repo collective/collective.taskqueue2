@@ -7,7 +7,7 @@ from datetime import datetime
 #
 logging.getLogger("huey").setLevel(logging.DEBUG)
 
-from unibo.magazine.huey_tasks import schedule_browser_view
+from collective.taskqueue2.huey_tasks import schedule_browser_view
 
 now = datetime.now().isoformat()
 schedule_browser_view(

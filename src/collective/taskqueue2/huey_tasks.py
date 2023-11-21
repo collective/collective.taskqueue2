@@ -13,8 +13,8 @@ from huey import crontab
 
 # Start huey consumer as thread
 
-from unibo.magazine.huey_logger import LOG
-from unibo.magazine.huey_config import huey_taskqueue
+from collective.taskqueue2.huey_logger import LOG
+from collective.taskqueue2.huey_config import huey_taskqueue
 
 @huey_taskqueue.on_startup()
 def on_startup():

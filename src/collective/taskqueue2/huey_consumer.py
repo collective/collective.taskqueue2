@@ -10,8 +10,8 @@ from huey.bin.huey_consumer import load_huey
 from huey.consumer_options import ConsumerConfig
 
 # don't remove, required for task registration
-from unibo.magazine.huey_tasks import schedule_browser_view
-from unibo.magazine.huey_logger import LOG
+from collective.taskqueue2.huey_tasks import schedule_browser_view
+from collective.taskqueue2.huey_logger import LOG
 
 
 
@@ -51,7 +51,7 @@ consumer_options = {
 
 is_huey_consumer = os.environ.get("HUEY_CONSUMER", "0") in ("1", "True", "true", "on")
 if is_huey_consumer:
-    huey_taskqueue = load_huey("unibo.magazine.huey_config.huey_taskqueue")
+    huey_taskqueue = load_huey("collective.taskqueue2.huey_config.huey_taskqueue")
 
     config = ConsumerConfig(**consumer_options)
     config.validate()
