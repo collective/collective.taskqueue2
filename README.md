@@ -27,23 +27,20 @@
     :alt: License
 
 
-=====================
-collective.taskqueue2
-=====================
+# collective.taskqueue2
+
 
 A taskqueue implementation for Plone 5/6 based on the Huey package.
 
 See https://huey.readthedocs.io/en/latest/
 
 
-Features
---------
+## Features
 
 - Can be bullet points
 
 
-Installation
-------------
+## Installation
 
 Install collective.taskqueue2 by adding it to your buildout::
 
@@ -57,21 +54,18 @@ Install collective.taskqueue2 by adding it to your buildout::
 
 and then running ``bin/buildout``
 
-Configuration
--------------
+## Configuration
 
 
 
 
-Authors
--------
+## Authors
 
-Andreas Jung <info@zopyx.com> for University of Bologna
-
+ - Andreas Jung <info@zopyx.com> for University of Bologna
 
 
-Contribute
-----------
+
+## Contribute
 
 - Issue Tracker: https://github.com/collective/collective.taskqueue2/issues
 - Source Code: https://github.com/collective/collective.taskqueue2
@@ -79,7 +73,6 @@ Contribute
 
 
 
-License
--------
+## License
 
 The project is licensed under the GPLv2.
