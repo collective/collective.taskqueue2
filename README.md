@@ -8,7 +8,13 @@ See https://huey.readthedocs.io/en/latest/
 
 ## Features
 
-- Can be bullet points
+This package can be used as a nearly seamless replacement for
+`collective.taskqueue`. It does not interfere with WSGI or ZServer and should be
+compatible with most up-to-date Plone 5.2 and Plone 6.X installations. Its main
+purpose is to allow you to schedule asynchronous operations directly from your
+application code. Additionally, thanks to the integration of Huey as the
+foundation for `collective.taskqueue2`, you can also schedule periodic tasks in
+a cron-style manner.
 
 
 ## Installation
