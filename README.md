@@ -71,7 +71,7 @@ To use the code with different task queue configurations, you can set the `HUEY_
 - SQLite: `HUEY_TASKQUEUE_URL=sqlite:///path/to/database.sqlite`
 - Redis: `HUEY_TASKQUEUE_URL=redis://localhost:6379/0`
 - Memory: `HUEY_TASKQUEUE_URL=memory://`
-- File: `HUEY_TASKQUEUE_URL=file:///path/to/queue/folder`
+- File system: `HUEY_TASKQUEUE_URL=file:///path/to/queue/folder`
 
 Make sure to adjust the URLs according to your specific environment.
 
