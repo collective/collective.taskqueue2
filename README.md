@@ -212,7 +212,7 @@ def listen_event(event):
    result = my_task(context=context, foo="bar", bar="42")
 ```
 
-Please the Huey documentation on `result` handling (in case you need to access
+Please read the Huey documentation on `result` handling (in case you need to access
 the result for whatever reason).
 
 
