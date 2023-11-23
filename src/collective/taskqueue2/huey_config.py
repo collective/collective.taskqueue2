@@ -19,8 +19,8 @@ elif scheme == "redis":
     # requires redis-p
     from huey import RedisHuey
     try:
-        import redis
-    except Exception as e:
+        pass
+    except Exception:
         msg = "For using Redis, you need to install py-redis"
         raise RuntimeError(msg)
 
