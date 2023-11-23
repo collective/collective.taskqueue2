@@ -16,8 +16,13 @@ if scheme == "sqlite":
     huey_taskqueue = SqliteHuey(filename=str(parsed_url.path))
 
 elif scheme == "redis":
-    # requires redis-py
+    # requires redis-p
     from huey import RedisHuey
+    try:
+        import redis
+    except Exception as e:
+        msg = "For using Redis, you need to install py-redis"
+        raise RuntimeError(msg)
 
     huey_taskqueue = RedisHuey(
         host=parsed_url.host,
