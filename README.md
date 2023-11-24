@@ -34,7 +34,7 @@ Install collective.taskqueue2 by adding it to your buildout::
         collective.taskqueue2
 
 
-and then running `bin/buildout`.
+and then running ``bin/buildout``
 
 ## Configuration
 
@@ -270,6 +270,10 @@ certain situations. However, it's important to be aware that conflict errors can
 occur with ZEO clients, just like with any other ZEO setup. It's worth noting
 that `collective.taskqueue2` does not provide any special support for handling
 conflict errors.
+
+To do:
+
+- make consumer configuration configurable in `huey_consumer.py`
 
 
 ## Authors
