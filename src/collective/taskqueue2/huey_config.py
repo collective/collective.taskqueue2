@@ -10,15 +10,16 @@ import os
 
 default_huey_url = "sqlite:///tmp/huey_queue.sqlite"
 
+
 def get_huey_taskqueue():
-    """ Return a Huey taskqueue instance """
+    """Return a Huey taskqueue instance"""
 
     huey_url = os.environ.get("HUEY_TASKQUEUE_URL", default_huey_url)
     parsed_url = furl.furl(huey_url)
     scheme = parsed_url.scheme
 
     if scheme == "sqlite":
-        return  SqliteHuey(filename=str(parsed_url.path))
+        return SqliteHuey(filename=str(parsed_url.path))
     elif scheme == "redis":
         # requires redis-py
         return RedisHuey(

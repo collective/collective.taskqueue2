@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.taskqueue2">
+
+  <browser:page
+    name="taskqueue_controlpanel-controlpanel"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    class=".controlpanel.TaskqueueControlpanelView"
+    layer="collective.taskqueue2.interfaces.ICollectiveTaskqueue2Layer"
+    permission="cmf.ManagePortal"
+    />
+
+  <include package="plone.restapi"  />
+  <adapter
+    factory=".controlpanel.TaskqueueControlpanelConfigletPanel"
+    name="taskqueue_controlpanel" />
+
+
+</configure>

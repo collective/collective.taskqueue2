@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="collective.taskqueue2">
+
+    <!-- -*- extra stuff goes here -*- -->
+
+  <configlet
+      i18n:attributes="title"
+      title="Taskqueue Controlpanel"
+      action_id="taskqueue_controlpanel-controlpanel"
+      appId="taskqueue_controlpanel-controlpanel"
+      category="Products"
+      condition_expr=""
+      icon_expr=""
+      url_expr="string:${portal_url}/@@taskqueue_controlpanel-controlpanel"
+      visible="True">
+    <permission>Manage Portal</permission>
+  </configlet>
+
+
+</object>

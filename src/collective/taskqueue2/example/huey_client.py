@@ -1,9 +1,9 @@
 # bin/instance run scripts/huey_client.py
 
-from datetime import datetime
-import logging
-
 from collective.taskqueue2.huey_tasks import schedule_browser_view
+from datetime import datetime
+
+import logging
 
 
 logging.getLogger("huey").setLevel(logging.DEBUG)

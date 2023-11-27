@@ -5,15 +5,14 @@ from huey.bin.huey_consumer import load_huey
 from huey.consumer import Consumer
 from huey.consumer_options import ConsumerConfig
 
+# This import must remain in place in order to register the Huey tasks during
+# startup !!!
+import collective.taskqueue2.huey_tasks  # noqa: F401
+
 # don't remove, required for task registration
 import os
 import signal
 import threading
-
-
-# This import must remain in place in order to register the Huey tasks during
-# startup !!!
-import collective.taskqueue2.huey_tasks # noqa: F401
 
 
 # monkey-patch huey signal handler for integration with Zope
@@ -44,7 +43,7 @@ consumer_options = {
     "scheduler_interval": 1,
     "worker_type": "thread",
     "workers": 1,
-#    "logfile": "huey.log",
+    #    "logfile": "huey.log",
     "verbose": False,
 }
 
