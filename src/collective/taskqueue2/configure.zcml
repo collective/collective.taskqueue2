@@ -47,7 +47,5 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
-    <include package=".controlpanels" />
-
 
 </configure>
