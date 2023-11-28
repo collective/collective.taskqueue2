@@ -6,13 +6,13 @@ from huey.consumer import Consumer
 from huey.consumer_options import ConsumerConfig
 
 # This import must remain in place in order to register the Huey tasks during
-# startup !!!
+# startup !!!  Don't remove, required for task registration!
 import collective.taskqueue2.huey_tasks  # noqa: F401
 
-# don't remove, required for task registration
 import os
 import signal
 import threading
+import pprint
 
 
 # monkey-patch huey signal handler for integration with Zope
@@ -47,6 +47,31 @@ consumer_options = {
     "verbose": False,
 }
 
+# override consumer options from environment.
+# e.g. HUEY_WORKERS=2
+#     HUEY_LOGFILE=/var/log/huey.log
+#    HUEY_VERBOSE=1
+#    HUEY_WORKER_TYPE=process
+#    HUEY_PERIODIC=0
+#    HUEY_SCHEDULER_INTERVAL=5
+#    HUEY_INITIAL_DELAY=0.5
+#    HUEY_MAX_DELAY=10
+#    HUEY_BACKOFF=1.15
+#    HUEY_HEALTH_CHECK_INTERVAL=4
+#    HUEY_CHECK_WORKER_HEALTH=1
+#    HUEY_EXTRA_LOCKS=1
+#    HUEY_FLUSH_LOCKS=1
+
+for key, value in os.environ.items():
+    if key.startswith("HUEY_"):
+        option_name = key.split("HUEY_")[1].lower()
+        if option_name in consumer_options:
+            option_type = type(consumer_options[option_name])
+            if option_type == bool:
+                consumer_options[option_name] = value.lower() == "true"
+            else:
+                consumer_options[option_name] = option_type(value)
+
 
 # startup handler for starting Huey consumer thread
 def startup(event):
@@ -75,6 +100,7 @@ def _startup(event):
         th = threading.Thread(target=consumer.run)
         th.start()
 
+        LOG.info(f"Consumer options: {pprint.pformat(consumer_options)}")
         LOG.info("collective.taskqueue2: consumer thread started.")
     else:
         LOG.debug(
