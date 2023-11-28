@@ -145,6 +145,11 @@ environment variables should be prefixed with `HUEY_`. Here are some examples:
 - `HUEY_EXTRA_LOCKS`: Additional locks to acquire during task execution.
 - `HUEY_FLUSH_LOCKS`: Whether to flush locks after task execution.
 
+It is strongly recommended to keep the existing configuration default values and
+change the configuration only if you know what you are doing. Please refer the
+Huey documentation first for understanding the configuration options and their
+impact.
+
 
 ### Console output
 
