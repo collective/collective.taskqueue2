@@ -107,6 +107,44 @@ Ensure that you set the appropriate URL corresponding to the desired scheme befo
 
 The `huey_taskqueue` object created based on the URL configuration can be used further in the application for task queuing and processing.
 
+## Consumer configuration
+
+The configuration options for the Huey consumer are defined in the
+`consumer_options` dictionary. These options can be overridden using environment
+variables. Here are the available options:
+
+- `backoff`: The backoff factor for retrying failed tasks.
+- `check_worker_health`: Whether to periodically check the health of the worker.
+- `extra_locks`: Additional locks to acquire during task execution.
+- `flush_locks`: Whether to flush locks after task execution.
+- `health_check_interval`: The interval (in seconds) for checking worker health.
+- `initial_delay`: The initial delay (in seconds) before processing tasks.
+- `max_delay`: The maximum delay (in seconds) for exponential backoff.
+- `periodic`: Whether to enable periodic tasks.
+- `scheduler_interval`: The interval (in seconds) for running periodic tasks.
+- `worker_type`: The type of worker to use (e.g., "thread" or "process").
+- `workers`: The number of worker threads or processes to use.
+- `verbose`: Whether to enable verbose logging.
+
+### Environment Variables
+
+The configuration options can be overridden using environment variables. The
+environment variables should be prefixed with `HUEY_`. Here are some examples:
+
+- `HUEY_WORKERS`: The number of worker threads or processes.
+- `HUEY_LOGFILE`: The path to the log file.
+- `HUEY_VERBOSE`: Whether to enable verbose logging.
+- `HUEY_WORKER_TYPE`: The type of worker to use.
+- `HUEY_PERIODIC`: Whether to enable periodic tasks.
+- `HUEY_SCHEDULER_INTERVAL`: The interval (in seconds) for running periodic tasks.
+- `HUEY_INITIAL_DELAY`: The initial delay (in seconds) before processing tasks.
+- `HUEY_MAX_DELAY`: The maximum delay (in seconds) for exponential backoff.
+- `HUEY_BACKOFF`: The backoff factor for retrying failed tasks.
+- `HUEY_HEALTH_CHECK_INTERVAL`: The interval (in seconds) for checking worker health.
+- `HUEY_CHECK_WORKER_HEALTH`: Whether to periodically check the health of the worker.
+- `HUEY_EXTRA_LOCKS`: Additional locks to acquire during task execution.
+- `HUEY_FLUSH_LOCKS`: Whether to flush locks after task execution.
+
 
 ### Console output
 
