@@ -48,7 +48,4 @@
   <!-- -*- extra stuff goes here -*- -->
 
 
-  <include package=".example" />
-
-
 </configure>
