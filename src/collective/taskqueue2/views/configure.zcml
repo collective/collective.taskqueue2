@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.taskqueue2">
+
+ <!-- -*- extra stuff goes here -*- -->
+
+  <browser:page
+    name="sample-plone-view"
+    for="*"
+    class=".sample_plone_view.SamplePloneView"
+    template="sample_plone_view.pt"
+    permission="zope2.View"
+    layer="collective.taskqueue2.interfaces.ICollectiveTaskqueue2Layer"
+    />
+
+</configure>

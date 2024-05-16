@@ -47,5 +47,7 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
+  <include package=".views" />
+
 
 </configure>

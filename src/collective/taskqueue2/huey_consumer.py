@@ -8,11 +8,10 @@ from huey.consumer_options import ConsumerConfig
 # This import must remain in place in order to register the Huey tasks during
 # startup !!!  Don't remove, required for task registration!
 import collective.taskqueue2.huey_tasks  # noqa: F401
-
 import os
+import pprint
 import signal
 import threading
-import pprint
 
 
 # monkey-patch huey signal handler for integration with Zope
