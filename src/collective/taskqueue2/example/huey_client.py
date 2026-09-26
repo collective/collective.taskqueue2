@@ -1,9 +1,11 @@
-# bin/instance run scripts/huey_client.py
+# run inside a wsgi instance (the instance has to be stopped):
+# .venv/bin/zconsole run instance/etc/zope.conf \
+#     src/collective/taskqueue2/example/huey_client.py
+
+from datetime import datetime
+import logging
 
 from collective.taskqueue2.huey_tasks import schedule_browser_view
-from datetime import datetime
-
-import logging
 
 
 logging.getLogger("huey").setLevel(logging.DEBUG)
@@ -15,6 +17,6 @@ schedule_browser_view(
     context_path="/magazine",
     site_path="/magazine",
     username="admin",
-    params=dict(foo="bar", bar="foo", meaning_of_life=42, now=now),
+    params={"foo": "bar", "bar": "foo", "meaning_of_life": 42, "now": now},
 )
 print("added")

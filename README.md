@@ -1,7 +1,7 @@
 # collective.taskqueue2
 
 
-A taskqueue implementation for Plone 5/6 based on the Huey package.
+A taskqueue implementation for Plone 6 based on the Huey package.
 
 See https://huey.readthedocs.io/en/latest/
 
@@ -9,12 +9,12 @@ See https://huey.readthedocs.io/en/latest/
 ## Features
 
 This package can be used as a nearly seamless replacement for
-`collective.taskqueue`. It does not interfere with WSGI or ZServer and should be
-compatible with most up-to-date Plone 5.2 and Plone 6.X installations. Its main
-purpose is to allow you to schedule asynchronous operations directly from your
-application code. Additionally, thanks to the integration of Huey as the
-foundation for `collective.taskqueue2`, you can also schedule periodic tasks in
-a cron-style manner.
+`collective.taskqueue`. It does not interfere with WSGI or ZServer and works with
+Plone 6.2 installations. Its main purpose is to allow you to schedule
+asynchronous operations directly from your application code. Additionally,
+thanks to the integration of Huey as the foundation for
+`collective.taskqueue2`, you can also schedule periodic tasks in a cron-style
+manner.
 
 The `collective.taskqueue` package supports multiple backend storage options,
 including Redis, Sqlite, in-memory, and filesystem. However, in most cases,
@@ -24,17 +24,37 @@ in-memory storage are commonly used for development purposes.
 
 ## Installation
 
-Install collective.taskqueue2 by adding it to your buildout::
+`collective.taskqueue2` is a regular Python distribution and can be installed
+with `pip` or `uv`::
 
-    [buildout]
+    pip install collective.taskqueue2
 
-    ...
+Add it to the packages of your Plone instance (buildout: the ``eggs`` section;
+pip/uv based deployments: the constraints/requirements of your deployment) and
+install the ``collective.taskqueue2`` add-on in the Plone *Add-ons* control
+panel.
 
-    eggs =
-        collective.taskqueue2
+Requirements: Plone 6.2 and Python 3.10 or newer.
 
 
-and then running ``bin/buildout``
+## Development
+
+The development environment is created with `uv`, there is no buildout::
+
+    make dev        # venv + Plone 6.2 + Zope instance on http://127.0.0.1:8080
+    make fg         # the same instance in the foreground
+    make stop       # stop the instance
+    make test       # test suite + coverage report
+    make coverage   # same, but fails below the 99% coverage gate
+    make lint       # ruff
+    make help       # all targets
+
+`make dev` downloads the Plone constraints file, creates ``.venv``, installs
+Plone 6.2 and this package (editable), creates the Zope WSGI instance in
+``instance/`` and starts it. The instance runs with ``HUEY_CONSUMER=1`` and
+``HUEY_TASKQUEUE_URL=memory://``, the login is ``admin``/``admin``.
+
+See ``DEVELOP.rst`` for the details.
 
 ## Configuration
 
@@ -201,7 +221,9 @@ using `"/".join(context.getPhysicalPath())`.
 
 
 ```
-# bin/instance run scripts/huey_client.py
+# run inside a wsgi instance (the instance has to be stopped):
+# .venv/bin/zconsole run instance/etc/zope.conf \
+#     src/collective/taskqueue2/example/huey_client.py
 
 from datetime import datetime
 
@@ -312,8 +334,8 @@ returned the current queue status as JSON:
 ## Logging
 
 The package utilizes the standard Plone/Zope logger for logging purposes.
-Typically, the log information is stored in the `var/log/instance.log` file or a
-related file if using a ZEO setup.
+Typically, the log information is stored in the `instance/var/runwsgi.log` file
+or a related file if using a ZEO setup.
 
 ## Configuration of `collective.taskqueue2` with a ZEO setup
 
@@ -332,10 +354,6 @@ occur with ZEO clients, just like with any other ZEO setup. It's worth noting
 that `collective.taskqueue2` does not provide any special support for handling
 conflict errors.
 
-To do:
-
-- make consumer configuration configurable in `huey_consumer.py`
-
 
 ## Authors
 
@@ -351,7 +369,6 @@ solution.
 
 - Issue Tracker: https://github.com/collective/collective.taskqueue2/issues
 - Source Code: https://github.com/collective/collective.taskqueue2
-- Documentation: https://docs.plone.org/foo/bar
 
 
 

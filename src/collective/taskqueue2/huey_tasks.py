@@ -1,15 +1,16 @@
-# bin/instance run scripts/huey_consumer.py
+# Tasks that are executed by the Huey consumer (see huey_consumer.py).
+
+import time
+
+from huey import crontab
+import plone.api
+from Testing.makerequest import makerequest
+import transaction
+from zope.component.hooks import setSite
+import Zope2
 
 from collective.taskqueue2.huey_config import huey_taskqueue
 from collective.taskqueue2.huey_logger import LOG
-from huey import crontab
-from Testing.makerequest import makerequest
-from zope.component.hooks import setSite
-
-import plone.api
-import time
-import transaction
-import Zope2
 
 
 # Start huey consumer as thread
@@ -34,10 +35,10 @@ def post_execute_hook(task, task_value, exc):
 
 @huey_taskqueue.periodic_task(crontab(minute="*", hour="*"))
 def dump_queue_stats():
-    data = dict(
-        pending=len(huey_taskqueue.pending()),
-        scheduled=len(huey_taskqueue.scheduled()),
-    )
+    data = {
+        "pending": len(huey_taskqueue.pending()),
+        "scheduled": len(huey_taskqueue.scheduled()),
+    }
     LOG.info(f"Taskqueue stats: {data}")
 
 
@@ -80,11 +81,11 @@ def schedule_browser_view(
                     raise ValueError(f"Unknown view {view_name}")
 
                 result = view()
-                LOG.info(view_name, result)
+                LOG.info("%s: %s", view_name, result)
 
                 t.commit()
                 LOG.debug("Transaction committed")
-            except:
+            except Exception:
                 t.abort()
                 LOG.error("Transaction aborted", exc_info=True)
                 raise

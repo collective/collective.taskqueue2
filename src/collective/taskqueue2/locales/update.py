@@ -1,74 +1,79 @@
 # -*- coding: utf-8 -*-
+"""Rebuild and synchronize the translation catalogs using ``i18ndude``."""
 
 import os
-import pkg_resources
+from pathlib import Path
 import subprocess
 
 
-domain = "collective.taskqueue2"
-os.chdir(pkg_resources.resource_filename(domain, ""))
-os.chdir("../../../")
-target_path = "src/collective/taskqueue2/"
-locale_path = target_path + "locales/"
-i18ndude = "./bin/i18ndude"
+DOMAIN = "collective.taskqueue2"
+PACKAGE_PATH = Path(__file__).resolve().parent.parent
+LOCALE_PATH = PACKAGE_PATH / "locales"
 
 # ignore node_modules files resulting in errors
-excludes = '"*.html *json-schema*.xml"'
+EXCLUDES = "*.html *json-schema*.xml"
+
+
+def i18ndude():
+    """Return the i18ndude executable to use."""
+    return os.environ.get("I18NDUDE", "i18ndude")
 
 
 def locale_folder_setup():
-    os.chdir(locale_path)
-    languages = [d for d in os.listdir(".") if os.path.isdir(d)]
-    for lang in languages:
-        folder = os.listdir(lang)
-        if "LC_MESSAGES" in folder:
+    """Create the missing ``LC_MESSAGES`` folders for new languages."""
+    for lang in sorted(p for p in LOCALE_PATH.iterdir() if p.is_dir()):
+        lc_messages_path = lang / "LC_MESSAGES"
+        if lc_messages_path.is_dir():
             continue
-        else:
-            lc_messages_path = lang + "/LC_MESSAGES/"
-            os.mkdir(lc_messages_path)
-            cmd = "msginit --locale={0} --input={1}.pot --output={2}/LC_MESSAGES/{3}.po".format(  # NOQA: E501
-                lang,
-                domain,
-                lang,
-                domain,
-            )
-            subprocess.call(
-                cmd,
-                shell=True,
-            )
-
-    os.chdir("../../../../")
+        lc_messages_path.mkdir()
+        subprocess.run(
+            [
+                "msginit",
+                f"--locale={lang.name}",
+                f"--input={LOCALE_PATH}/{DOMAIN}.pot",
+                f"--output={lc_messages_path}/{DOMAIN}.po",
+            ],
+            check=False,
+        )
 
 
-def _rebuild():
-    cmd = "{i18ndude} rebuild-pot --pot {locale_path}/{domain}.pot --exclude {excludes} --create {domain} {target_path}".format(  # NOQA: E501
-        i18ndude=i18ndude,
-        locale_path=locale_path,
-        domain=domain,
-        target_path=target_path,
-        excludes=excludes,
+def rebuild_pot():
+    """Rebuild the ``.pot`` template from the sources."""
+    subprocess.run(
+        [
+            i18ndude(),
+            "rebuild-pot",
+            "--pot",
+            f"{LOCALE_PATH}/{DOMAIN}.pot",
+            "--exclude",
+            EXCLUDES,
+            "--create",
+            DOMAIN,
+            str(PACKAGE_PATH),
+        ],
+        check=False,
     )
-    subprocess.call(
-        cmd,
-        shell=True,
-    )
 
 
-def _sync():
-    cmd = "{0} sync --pot {1}/{2}.pot {3}*/LC_MESSAGES/{4}.po".format(
-        i18ndude,
-        locale_path,
-        domain,
-        locale_path,
-        domain,
-    )
-    subprocess.call(
-        cmd,
-        shell=True,
+def sync_po():
+    """Sync the translations catalogs with the ``.pot`` template."""
+    catalogs = sorted(str(p) for p in LOCALE_PATH.glob(f"*/LC_MESSAGES/{DOMAIN}.po"))
+    if not catalogs:
+        return
+    subprocess.run(
+        [
+            i18ndude(),
+            "sync",
+            "--pot",
+            f"{LOCALE_PATH}/{DOMAIN}.pot",
+            *catalogs,
+        ],
+        check=False,
     )
 
 
 def update_locale():
+    """Entry point of the ``update_locale`` console script."""
     locale_folder_setup()
-    _sync()
-    _rebuild()
+    sync_po()
+    rebuild_pot()

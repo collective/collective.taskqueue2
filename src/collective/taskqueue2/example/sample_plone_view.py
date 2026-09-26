@@ -2,8 +2,7 @@
 
 # from collective.taskqueue2 import _
 from plone.dexterity.browser.view import DefaultView
-from zope.interface import implementer
-from zope.interface import Interface
+from zope.interface import Interface, implementer
 
 
 # from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile

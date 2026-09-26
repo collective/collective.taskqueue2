@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "collective.taskqueue2"
+version = "1.0a2"
+description = "A taskqueue implementation for Plone 6 based on the Huey package"
+readme = "README.md"
+license = "GPL-2.0-only"
+license-files = ["LICENSE.GPL", "LICENSE.rst"]
+requires-python = ">=3.10"
+authors = [{ name = "Andreas Jung", email = "info@zopyx.com" }]
+keywords = ["Python", "Plone", "CMS"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Plone",
+    "Framework :: Plone :: Addon",
+    "Framework :: Plone :: 6.2",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "z3c.jbot",
+    "plone.api>=2.0",
+    "plone.app.dexterity",
+    "huey>=3.4",
+    "furl",
+]
+
+[project.optional-dependencies]
+test = [
+    "plone.app.testing",
+    "plone.app.contenttypes",
+    "plone.app.robotframework[debug]",
+    "plone.testing>=5.0.0",
+    "build",
+    "coverage",
+    "redis",
+    "ruff",
+    "zope.testrunner",
+]
+
+[project.urls]
+PyPI = "https://pypi.org/project/collective.taskqueue2/"
+Source = "https://github.com/collective/collective.taskqueue2"
+Tracker = "https://github.com/collective/collective.taskqueue2/issues"
+
+[project.scripts]
+update_locale = "collective.taskqueue2.locales.update:update_locale"
+
+[project.entry-points."plone.autoinclude.plugin"]
+target = "plone"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["collective.taskqueue2*"]
+
+[tool.coverage.run]
+branch = true
+source = ["collective.taskqueue2"]
+
+[tool.coverage.report]
+fail_under = 99
+omit = ["*/tests/*", "*/testing.py"]
+show_missing = true
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+select = ["B", "C4", "E", "F", "I", "W"]
+ignore = ["B008", "E501"]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+lines-after-imports = 2
+known-first-party = ["collective.taskqueue2"]

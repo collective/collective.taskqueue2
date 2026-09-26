@@ -1,20 +1,23 @@
-from collective.taskqueue2.huey_logger import LOG
-from huey import FileHuey
-from huey import MemoryHuey
-from huey import RedisHuey
-from huey import SqliteHuey
+import os
 
 import furl
-import os
+from huey import FileHuey, MemoryHuey, RedisHuey, SqliteHuey
+
+from collective.taskqueue2.huey_logger import LOG
 
 
 default_huey_url = "sqlite:///tmp/huey_queue.sqlite"
 
 
-def get_huey_taskqueue():
-    """Return a Huey taskqueue instance"""
+def get_huey_taskqueue(url=None):
+    """Return a Huey taskqueue instance for ``url``.
 
-    huey_url = os.environ.get("HUEY_TASKQUEUE_URL", default_huey_url)
+    ``url`` defaults to the value of the ``$HUEY_TASKQUEUE_URL`` environment
+    variable falling back to :data:`default_huey_url`.
+    """
+    if url is None:
+        url = os.environ.get("HUEY_TASKQUEUE_URL")
+    huey_url = url or default_huey_url
     parsed_url = furl.furl(huey_url)
     scheme = parsed_url.scheme
 
@@ -34,7 +37,7 @@ def get_huey_taskqueue():
         return FileHuey(path=str(parsed_url.path))
     else:
         raise ValueError(
-            f"No proper configuration for $HUEY_TASKQUEUE_URL found ({huey_url}"
+            f"No proper configuration for $HUEY_TASKQUEUE_URL found ({huey_url})"
         )
 
 

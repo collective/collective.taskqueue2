@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Products.Five.browser import BrowserView
-from zope.interface import implementer
-from zope.interface import Interface
+from zope.interface import Interface, implementer
 
 
 class IQueueAsyncTask(Interface):
