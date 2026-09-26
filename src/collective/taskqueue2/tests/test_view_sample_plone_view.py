@@ -12,7 +12,6 @@ import unittest
 
 
 class ViewsIntegrationTest(unittest.TestCase):
-
     layer = COLLECTIVE_TASKQUEUE2_INTEGRATION_TESTING
 
     def setUp(self):
@@ -42,7 +41,6 @@ class ViewsIntegrationTest(unittest.TestCase):
 
 
 class ViewsFunctionalTest(unittest.TestCase):
-
     layer = COLLECTIVE_TASKQUEUE2_FUNCTIONAL_TESTING
 
     def setUp(self):
